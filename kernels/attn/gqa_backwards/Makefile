@@ -6,6 +6,7 @@
 #   tk_kernel_bkwd       from attn_bkwd_non_causal.cpp
 #   tk_kernel_bkwd_prep  from attn_bkwd_prep.cpp
 #   tk_kernel_fwd        from attn_fwd_non_causal.cpp
+#   tk_kernel_fwd_art        from attn_fwd_non_causal_art.cpp
 
 # Compiler
 GPU_TARGET ?= CDNA4
@@ -62,7 +63,7 @@ LOGFILE := $(LOGDIR)/make_build.log
 # --------------------------------------------------------------------
 # Default target: build all three kernels
 # --------------------------------------------------------------------
-all: tk_kernel_bkwd tk_kernel_bkwd_prep tk_kernel_fwd
+all: tk_kernel_bkwd tk_kernel_bkwd_prep tk_kernel_fwd tk_kernel_fwd_art
 
 # --------------------------------------------------------------------
 # Explicit rules for each kernel
@@ -83,9 +84,14 @@ tk_kernel_fwd: attn_fwd_non_causal.cpp
 	$(HIPCXX) $< $(HIPFLAGS) $(ICXXFLAGS) $(ICPPFLAGS) $(ILDFLAGS) \
 	    -o $@$(shell python3-config --extension-suffix) 2>&1 | tee $(LOGFILE)
 
+tk_kernel_fwd_art: attn_fwd_non_causal_art.cpp
+	@mkdir -p $(LOGDIR)
+	$(HIPCXX) $< $(HIPFLAGS) $(ICXXFLAGS) $(ICPPFLAGS) $(ILDFLAGS) \
+	    -o $@$(shell python3-config --extension-suffix) 2>&1 | tee $(LOGFILE)
+
 # Clean target
 clean:
-	rm -f tk_kernel_bkwd* tk_kernel_bkwd_prep* tk_kernel_fwd*
+	rm -f tk_kernel_bkwd* tk_kernel_bkwd_prep* tk_kernel_fwd* tk_kernel_fwd_art*
 
 .PHONY: all clean
 

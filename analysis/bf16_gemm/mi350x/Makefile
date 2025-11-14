@@ -8,7 +8,7 @@ SRC ?= kernel_8192.cpp
 ROCM_INSTALL_DIR := $(ROCM_PATH)
 HIP_INCLUDE_DIR  := /opt/rocm/include/hip
 
-HIPCXX ?= /opt/rocm/bin/hipcc
+HIPCXX ?= hipcc
 
 # Compiler flags based on GPU target
 ifeq ($(GPU_TARGET),CDNA2)

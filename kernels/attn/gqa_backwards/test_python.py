@@ -2,6 +2,7 @@ import torch
 import random
 import math
 import tk_kernel_fwd
+import tk_kernel_fwd_art
 import tk_kernel_bkwd
 import tk_kernel_bkwd_prep
 import time
@@ -224,7 +225,8 @@ dO_tk = dO_bhnd.transpose(1, 2).bfloat16().clone().contiguous()
 O_tk = torch.zeros_like(out_aiter_bnhd).bfloat16().clone().contiguous()
 L_tk = torch.zeros((B, H, N, 1), device='cuda').float().transpose(-1, -2).contiguous()
 # print(Q_tk.shape, K_tk.shape, V_tk.shape, O_tk.shape, L_tk.shape)
-tk_kernel_fwd.dispatch_fwd(Q_tk, K_tk, V_tk, O_tk, L_tk)
+#tk_kernel_fwd.dispatch_fwd(Q_tk, K_tk, V_tk, O_tk, L_tk)
+tk_kernel_fwd_art.dispatch_fwd(Q_tk, K_tk, V_tk, O_tk, L_tk)
 # torch.cuda.synchronize()
 
 # L_tk = L_tiled.float().contiguous()
